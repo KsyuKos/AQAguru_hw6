@@ -1,13 +1,12 @@
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class FirstTest {
 
     @BeforeAll
@@ -19,8 +18,9 @@ public class FirstTest {
     BasePage page = new BasePage();
 
     @Test
-    @DisplayName("firstEnterTest")
-    void firstEnterTest() {
+    @DisplayName("Test hover")
+    @Order(1)
+    public void testHover() {
         page.openUrl("https://github.com");
         $$("li.HeaderMenu-item")
                 .find(text("Solutions"))
@@ -34,22 +34,23 @@ public class FirstTest {
     }
 
     @Test
-    @DisplayName("Drag&Drop Test")
-    void dadTest() {
+    @DisplayName("Test Drag & Drop")
+    @Order(2)
+    public void testDed() {
         page.openUrl("https://the-internet.herokuapp.com/drag_and_drop");
         SelenideElement a = $x("//*[@id='column-a']");
         SelenideElement b = $x("//*[@id='column-b']");
         a.dragAndDropTo(b);
         a.shouldHave(text("B"));
         b.shouldHave(text("A"));
-        closeWindow();
     }
 /*тест провален, не тащит элемент, к тому же без закрытия браузера на той же странице мешает выполнению предыдущего теста,
 дважды передвигает эелемент*/
 
     @Test //будет провален, элемент не передвигается
-    @DisplayName("Test with actions")
-    void actionTest() {
+    @DisplayName("Test actions")
+    @Order(3)
+    void testActions() {
         page.openUrl("https://the-internet.herokuapp.com/drag_and_drop");
         SelenideElement a = $x("//*[@id='column-a']");
         SelenideElement b = $x("//*[@id='column-b']");
